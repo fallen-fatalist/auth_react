@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import ClassCounter from './components/ClassCounter';
-import './App.css';
+import PostList from './components/PostList';
+import './styles/App.css';
 
 function App() { 
-  const [value, setValue] = useState("Input text")
+  const [posts, setPosts] = useState([
+    {id: 1, title: 'JavaScript 1', body: "Desc"},
+    {id: 2, title: 'JavaScript 2', body: "Desc"},
+    {id: 3, title: 'JavaScript 3', body: "Desc"},
+  ])
 
   
   return (
     <div className="App">
-      <ClassCounter/>
+      <PostList posts={posts} title="Posts list 1"/>
     </div>
   );
 }
