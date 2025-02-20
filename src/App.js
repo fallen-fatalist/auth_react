@@ -1,4 +1,4 @@
-import React, { useState, useMemo, createRef } from 'react';
+import React, { useState, createRef } from 'react';
 
 
 // Components
@@ -7,33 +7,17 @@ import PostForm from './components/PostForm';
 import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/modal/MyModal';
 import MyButton from './components/UI/button/MyButton';
+
+// Hooks
+import { usePosts } from './components/hooks/usePosts';
 // Styles
 import './styles/App.css';
 
 
 function App() {
-  // Initial data 
-  const [posts, setPosts] = useState([
-    {id: 1, title: 'Abba', body: "Some word", nodeRef: createRef(null)},
-    {id: 2, title: 'Python', body: "Scripting programming language", nodeRef: createRef(null)},
-    {id: 3, title: 'Java', body: "Object oriented programming language", nodeRef: createRef(null)},
-  ])
-
-  // Filtering
   const [filter, setFilter] = useState({sort: "", query: ""})
   const [modal, setModal] = useState(false)
-
-  // Memo Hooks
-  const sortedPosts = useMemo(() => {
-    if (filter.sort) {
-      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-    }
-    return posts
-  }, [filter.sort, posts])
-
-  const sortedAndSearchedPosts = useMemo(() => {
-    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()))
-  }, [filter.query, sortedPosts])
+  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
 
   // Callback for creating the post
@@ -46,8 +30,6 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
-
-  
 
   return (
     <div className="App">
