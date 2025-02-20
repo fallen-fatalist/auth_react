@@ -1,4 +1,5 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
+import axios from 'axios';
 
 
 // Components
@@ -15,9 +16,22 @@ import './styles/App.css';
 
 
 function App() {
+  const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({sort: "", query: ""})
   const [modal, setModal] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+
+  useEffect( () => {
+    fetchPosts()
+  },[])
+
+  async function fetchPosts() {
+    const response = await axios.get('https://jsonplaceholder.org/posts')
+    response.data.forEach(post => {
+      post.nodeRef = createRef(null)
+    });
+    setPosts(response.data)
+  }
 
 
   // Callback for creating the post
