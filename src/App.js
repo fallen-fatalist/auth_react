@@ -1,5 +1,4 @@
-import React, { useState, useEffect, createRef } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 
 // Components
@@ -8,11 +7,13 @@ import PostForm from './components/PostForm';
 import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/modal/MyModal';
 import MyButton from './components/UI/button/MyButton';
+import Loader from "./components/UI/loader/MyLoader"
 
 // Hooks
 import { usePosts } from './components/hooks/usePosts';
 // Styles
 import './styles/App.css';
+import PostService from './api/PostService';
 
 
 function App() {
@@ -20,17 +21,19 @@ function App() {
   const [filter, setFilter] = useState({sort: "", query: ""})
   const [modal, setModal] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [isPostsLoading, setIsPostsLoading] = useState(false)
 
   useEffect( () => {
     fetchPosts()
   },[])
 
   async function fetchPosts() {
-    const response = await axios.get('https://jsonplaceholder.org/posts')
-    response.data.forEach(post => {
-      post.nodeRef = createRef(null)
-    });
-    setPosts(response.data)
+    setIsPostsLoading(true)
+    setTimeout( async () =>  {
+       const posts = await PostService.getAll()
+       setPosts(posts)
+       setIsPostsLoading(false)
+     }, 1000)
   }
 
 
@@ -61,8 +64,11 @@ function App() {
         filter={filter} 
         setFilter={setFilter}
       />
-      
-      <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts list 1"/>
+      {
+        isPostsLoading
+        ? <div style={{display: "flex", justifyContent: "center", marginTop: 50}}> <Loader/></div>
+        : <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts list 1"/>
+      }
     </div>
   );
 }

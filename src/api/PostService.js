@@ -1,5 +1,6 @@
 import axios from "axios";
-import createRef from "react";
+import { createRef } from "react";
+
 export default class PostService {
     static async getAll() {
         try {
@@ -10,8 +11,7 @@ export default class PostService {
             return response.data
         } catch (e) {
             console.log(e);
-
+            return []   
         }
-        return []
     }
 }
