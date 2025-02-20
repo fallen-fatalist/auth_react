@@ -4,12 +4,16 @@ import MyButton from "./UI/button/MyButton";
 
 const PostForm = ({create}) => {
   const [post, setPost] = useState({
+    id: '',
     title: '',
     body: ''
   })
 
   const addNewPost = (e) => {
     e.preventDefault()
+    
+    // Add some unique ID based on time
+    post.id = Date.now()
 
     if (post.title === '' || post.body === '') {
       // Here must be the modal window with the warning of empty fields
@@ -18,6 +22,7 @@ const PostForm = ({create}) => {
 
     create(post)
     setPost({
+      id: '',
       title: '',
       body: ''
     })
