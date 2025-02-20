@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+
+
+// Components
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
-import MySelect from './components/UI/select/MySelect';
+import PostFilter from './components/PostFilter';
+// Styles
 import './styles/App.css';
 
 
@@ -12,13 +16,22 @@ function App() {
     {id: 3, title: 'Java', body: "Object oriented programming language"},
   ])
 
-  const [selectedSort, setSelectedSort] = useState('')
+  const [filter, setFilter] = useState({
+    sort: "", 
+    query: ""
+  })
 
-  const sortPosts = (sort) => {
-    setSelectedSort(sort)
+  const sortedPosts = useMemo(() => {
+    if (filter.sort) {
+      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
+    }
+    return posts
+  }, [filter.sort, posts])
 
-    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-  }
+  const sortedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()))
+  }, [filter.query, sortedPosts])
+
 
   // Callback for creating the post
   const createPost = (newPost) => {
@@ -38,22 +51,12 @@ function App() {
 
       <hr style={{margin: "15px 0"}}/>
 
-      <div>
-        <MySelect 
-          value={selectedSort}
-          onChange={sort => sortPosts(sort)}
-          defaultValue={"Sort by"} 
-          options= {[
-            {value: "title", name: "By name"},
-            {value: "body", name: "By description"}
-          ]}
-        />
-      </div>
-
-      {posts.length !== 0
-        ? <PostList remove={removePost} posts={posts} title="Posts list 1"/>
-        : <h1 style={{textAlign: "center"}}>Posts are not found</h1>
-      }
+      <PostFilter 
+        filter={filter} 
+        setFilter={setFilter}
+      />
+      
+      <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts list 1"/>
     </div>
   );
 }
