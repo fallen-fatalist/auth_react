@@ -14,6 +14,7 @@ import { usePosts } from './components/hooks/usePosts';
 // Styles
 import './styles/App.css';
 import PostService from './api/PostService';
+import { useFetching } from './components/hooks/useFetching';
 
 
 function App() {
@@ -21,20 +22,16 @@ function App() {
   const [filter, setFilter] = useState({sort: "", query: ""})
   const [modal, setModal] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
-  const [isPostsLoading, setIsPostsLoading] = useState(false)
+  const [fetchPosts, isPostsLoading, postError] = useFetching( async () => {
+       const posts = await PostService.getAll()
+       setPosts(posts)
+  })
+    
 
   useEffect( () => {
     fetchPosts()
   },[])
 
-  async function fetchPosts() {
-    setIsPostsLoading(true)
-    setTimeout( async () =>  {
-       const posts = await PostService.getAll()
-       setPosts(posts)
-       setIsPostsLoading(false)
-     }, 1000)
-  }
 
 
   // Callback for creating the post
@@ -64,6 +61,8 @@ function App() {
         filter={filter} 
         setFilter={setFilter}
       />
+
+      {postError && <h1>Something went wrong ${postError}</h1>}
       {
         isPostsLoading
         ? <div style={{display: "flex", justifyContent: "center", marginTop: 50}}> <Loader/></div>
