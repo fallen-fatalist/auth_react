@@ -1,16 +1,34 @@
-.loader {
-    width: 100px;
-    height: 100px;
+.loaderContainer {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loaderRing {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: 3px dashed teal;
-    animation: rotate 1.5s infinite linear;
+    position: absolute;
+    animation: rotate 5s infinite linear;
+}
+
+.loaderText {
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    color: teal;
+    z-index: 1; /* Ensures text stays above the ring */
 }
 
 @keyframes rotate {
     0% {
-        transform: rotate(0deg) scale(1.0);
+        transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg) scale(1.4);
+        transform: rotate(360deg);
     }
 }

@@ -10,7 +10,7 @@
 }
 
 .App {
-    width: 800px;    
+    width: 800px;
 }
 
 .post {
@@ -20,6 +20,10 @@
     margin-top: 15px;
     justify-content: space-between;
     align-items: center;
+}
+
+.post__btns {
+    display: flex;
 }
 
 .post-enter {
@@ -56,4 +60,28 @@
   border: 2px solid orange;
   font-weight: bold;
   
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.navbar {
+    display:flex;
+    justify-content: center;
+    height: 50px;
+    width: 800px;
+    padding: 0 15px;
+    align-items: center;
+    background: lightgray;
+}
+
+.navbar__links {
+    margin-left: auto;
+}
+
+.error {
+    color: red;
 }
