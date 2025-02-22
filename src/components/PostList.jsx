@@ -3,6 +3,7 @@ import PostItem from "./PostItem";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
+// TODO: Endless pagination
 const PostList = ({posts, title, remove}) => {
   if (!posts.length) {
     return (
@@ -15,6 +16,7 @@ const PostList = ({posts, title, remove}) => {
       <h1 style={{textAlign: "center"}}>
         {title}
       </h1>
+      
 
       <TransitionGroup> 
         {posts.map((post) => 
