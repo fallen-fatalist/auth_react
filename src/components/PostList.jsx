@@ -17,7 +17,7 @@ const PostList = ({posts, title, remove}) => {
       </h1>
 
       <TransitionGroup> 
-        {posts.map((post, index) => 
+        {posts.map((post) => 
           <CSSTransition
             key={post.id}
             nodeRef={post.nodeRef}
@@ -25,7 +25,7 @@ const PostList = ({posts, title, remove}) => {
             classNames="post"
           >
             <div ref={post.nodeRef}>
-              <PostItem  remove={remove} number={index + 1} post={post}/>
+              <PostItem  remove={remove} post={post}/>
             </div>
           </CSSTransition>
         )}

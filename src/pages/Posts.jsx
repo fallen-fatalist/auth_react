@@ -36,7 +36,7 @@ function Posts() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [fetchPosts, isPostsLoading, postError] = useFetching( async () => {
-       const response = await PostService.getAll(limit, page)
+       const response = await PostService.getAllPosts(limit, page)
        response.data.forEach(post => {
          post.nodeRef = createRef(null)
        })
@@ -90,8 +90,7 @@ function Posts() {
       {postError && <h1>Something went wrong {postError}</h1>}
       {
         isPostsLoading 
-        // TODO: move style to CSS module
-        ? <div style={{display: "flex", justifyContent: "center", marginTop: 50}}> <Loader loaderText={"Loading posts..."}/></div>
+        ?  <Loader message={"Loading posts..."}/>
         : <>
             <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Posts"/>
             <Pagination totalPages={totalPages} page={page} setPage={setPage}/>

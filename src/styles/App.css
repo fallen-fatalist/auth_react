@@ -62,11 +62,10 @@
   
 }
 
-.loaderWrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
+.commentary {
+    margin-top: 15px;
 }
+
 
 .navbar {
     display:flex;
@@ -85,3 +84,4 @@
 .error {
     color: red;
 }
+
